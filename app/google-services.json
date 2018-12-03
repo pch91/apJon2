@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "600337578146",
+    "firebase_url": "https://tp2alam.firebaseio.com",
+    "project_id": "tp2alam",
+    "storage_bucket": "tp2alam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600337578146:android:eee35fb8792a65cb",
+        "android_client_info": {
+          "package_name": "com.example.scorp.apjon2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600337578146-g9toent3mbr0v8gtq3obgapqrihoc24q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtGeW-5wG8hBjRFWVli7xhrVb7jB5-ELY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

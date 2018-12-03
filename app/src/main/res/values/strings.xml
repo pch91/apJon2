@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">apJon2</string>
+    <string name="facebook_app_id">201037744159677</string>
+    <string name="fb_login_protocol_scheme">fb201037744159677</string>
+    <string name="title_activity_cadatro_usuario">CadatroUsuario</string>
+    <string name="UrlTaskd">https://infnet-devjava-assessment-api.herokuapp.com/tasks</string>
+
+</resources>
