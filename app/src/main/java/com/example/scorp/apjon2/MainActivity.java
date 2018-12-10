@@ -33,7 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
                 public <T> void onCalback(List<T> list) {
                     List<User> luser =  (List<User>) list;
                     if(luser.size() > 0 ) {
+                        showProgressDialog();
                         Intent intent = new Intent(MainActivity.this, ListTask.class);
                         startActivity(intent);
                     }else{

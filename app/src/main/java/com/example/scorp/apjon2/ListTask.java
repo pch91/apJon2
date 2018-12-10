@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.example.scorp.apjon2.DAO.Tasklistapi;
-import com.facebook.login.Login;
+import com.example.scorp.apjon2.DAO.ReturnApi;
+import com.example.scorp.apjon2.item_view_holder.TaskListItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
+import com.xwray.groupie.GroupAdapter;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,10 +29,11 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ListTask extends AppCompatActivity {
+public class ListTask extends BaseActivity {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String token;
+    public GroupAdapter adapter =  new GroupAdapter();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { //Botão adicional na ToolBar
@@ -43,6 +48,14 @@ public class ListTask extends AppCompatActivity {
         return true;
     }
 
+    public void populateViewListTask(List<com.example.scorp.apjon2.DAO.Task> lT,GroupAdapter ga){
+        for (com.example.scorp.apjon2.DAO.Task T: lT) {
+            ga.add(new TaskListItem(T));
+        }
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +65,7 @@ public class ListTask extends AppCompatActivity {
         getSupportActionBar().setTitle("Lista de atividades");
 
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder().addHeader("Authorization", token).build();
-                return chain.proceed(request);
-            }
-        });
 
         firebaseAuth.getCurrentUser().getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
             @Override
@@ -68,25 +73,39 @@ public class ListTask extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     token = task.getResult().getToken();
 
+                    OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+                    httpClient.addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = chain.request().newBuilder().addHeader("Authorization", token).build();
+                            return chain.proceed(request);
+                        }
+                    });
+
                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://infnet-devjava-assessment-api.herokuapp.com/tasks/")
-                            .addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://infnet-devjava-assessment-api.herokuapp.com/")
+                            .addConverterFactory(GsonConverterFactory.create()).client(httpClient.build())
                             .build();
 
                     Tasklistapi taskapi = retrofit.create(Tasklistapi.class);
-                    Call<List<com.example.scorp.apjon2.DAO.Task>> cltask = taskapi.loaddescription(token);
-                    cltask.enqueue(new Callback<List<com.example.scorp.apjon2.DAO.Task>>() {
-                        @Override
-                        public void onResponse(Call<List<com.example.scorp.apjon2.DAO.Task>> call, retrofit2.Response<List<com.example.scorp.apjon2.DAO.Task>> response) {
+                    Call<ReturnApi> cltask = taskapi.loaddescription(token);
 
+                    cltask.enqueue(new Callback<ReturnApi>() {
+                        @Override
+                        public void onResponse(Call<ReturnApi> call, retrofit2.Response<ReturnApi> response) {
                             if(response.isSuccessful()){
-                               List<com.example.scorp.apjon2.DAO.Task> tl =  response.body();
+                                ReturnApi tl =  response.body();
+                                RecyclerView PessoaView = findViewById(R.id.taskView);
+                                PessoaView.setLayoutManager(new GridLayoutManager(ListTask.this, 1));
+                                PessoaView.setAdapter(adapter);
+                                populateViewListTask(tl.getTasks(),adapter);
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<List<com.example.scorp.apjon2.DAO.Task>> call, Throwable t) {
-                            String oi;
+                        public void onFailure(Call<ReturnApi> call, Throwable t) {
+                            int a = 4;
                         }
                     });
 

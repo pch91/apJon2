@@ -4,5 +4,5 @@
     <string name="fb_login_protocol_scheme">fb201037744159677</string>
     <string name="title_activity_cadatro_usuario">CadatroUsuario</string>
     <string name="UrlTaskd">https://infnet-devjava-assessment-api.herokuapp.com/tasks</string>
-
+    <string name="loading" />
 </resources>

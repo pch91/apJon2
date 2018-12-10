@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface Tasklistapi {
 
-    @GET("tasks")
-    Call<List<Task>> loaddescription(@Header("Authorization") String authorization);
+    @GET("tasks/")
+    Call<ReturnApi> loaddescription(@Header("Authorization") String authorization);
 
 }
