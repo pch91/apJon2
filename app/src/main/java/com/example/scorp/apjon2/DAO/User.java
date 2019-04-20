@@ -2,7 +2,7 @@ package com.example.scorp.apjon2.DAO;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-@IgnoreExtraProperties
+
 public class User {
 
     public String id;
